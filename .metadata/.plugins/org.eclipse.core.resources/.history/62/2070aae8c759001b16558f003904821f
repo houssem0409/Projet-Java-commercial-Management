@@ -1,0 +1,105 @@
+package view;
+
+import java.awt.EventQueue;
+import java.awt.HeadlessException;
+
+import javax.swing.JFrame;
+
+import model.Fournisseur;
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.jdbc.Statement;
+
+import database.DataBaseConnection;
+
+public class AfficheFournisseur extends javax.swing.JInternalFrame {
+
+	private JFrame frame;
+	private JTable Table;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+				
+					AfficheFournisseur window = new AfficheFournisseur();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 * @throws SQLException 
+	 * @throws HeadlessException 
+	 * @throws ClassNotFoundException 
+	 */
+	public AfficheFournisseur() throws HeadlessException, SQLException, ClassNotFoundException {
+		initialize();
+		 DataBaseConnection.connecter();
+		
+		
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 685, 498);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JButton show_bn = new JButton("Afficher");
+		show_bn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String req= "SELECT * FROM `fournisseur` ";
+				ResultSet rs= DataBaseConnection.executionQuery(req);
+				try {
+					ResultSet rs = stmt.executeQuery(req);
+					while(rs.next())
+					{
+						System.out.println(rs.getInt(1));
+					}
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				
+				
+				
+				
+			}
+		});
+		show_bn.setBounds(485, 385, 131, 38);
+		frame.getContentPane().add(show_bn);
+		
+		Table = new JTable();
+		Table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10", "Title 11"
+			}
+		));
+		Table.setBounds(12, 38, 643, 274);
+		frame.getContentPane().add(Table);
+	}
+
+}

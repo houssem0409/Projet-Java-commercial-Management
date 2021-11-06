@@ -1,0 +1,61 @@
+package view;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+
+import model.Fournisseur;
+
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class AfficheFournisseur {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AfficheFournisseur window = new AfficheFournisseur();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public AfficheFournisseur() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 685, 498);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JButton show_bn = new JButton("Afficher");
+		show_bn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Fournisseur forni = new Fournisseur().AllFornisseur(T);
+				
+				
+			}
+		});
+		show_bn.setBounds(485, 385, 131, 38);
+		frame.getContentPane().add(show_bn);
+	}
+
+}

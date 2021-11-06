@@ -1,0 +1,376 @@
+package view;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JTable;
+import java.awt.Choice;
+import javax.swing.table.DefaultTableModel;
+
+import database.DataBaseConnection;
+import net.proteanit.sql.DbUtils;
+
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import database.DataBaseConnection;
+import model.GlobalVariables;
+import model.Produit;
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.border.MatteBorder;
+import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.HeadlessException;
+
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JTextField;
+
+public class AfficheProduit {
+
+	JFrame frame;
+	private JTable table;
+	private JTable Table;
+	private JTextField textFieldID;
+	private JTextField tfreference;
+	private JTextField tfdesignation;
+	private JTextField tfunitemesure;
+	private JTextField tffournisseur;
+	private JTextField tffamilleproduit;
+	private JTextField tfstock;
+	private JTextField tfstockmin;
+	private JTextField tfprix;
+	private JTextField tftva;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AfficheProduit window = new AfficheProduit();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public AfficheProduit() throws ClassNotFoundException, SQLException {
+		DataBaseConnection.connecter();
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 1099, 681);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Liste Des Produits");
+		lblNewLabel.setForeground(Color.BLUE);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setBounds(414, 49, 190, 16);
+		frame.getContentPane().add(lblNewLabel);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"idProduit", "reference", "designation", "unite Mesure", "Fournisseur", "Famille Produit", "Stock", "Stock min", "Prix","TVA"},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		table.setBounds(33, 96, 891, 16);
+		frame.getContentPane().add(table);
+		Table = new JTable();
+		Table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				DefaultTableModel model= (DefaultTableModel)Table.getModel();
+				int selectedRowIndex = Table.getSelectedRow();
+				
+				textFieldID.setText(model.getValueAt(selectedRowIndex, 0).toString());
+				tfreference.setText(model.getValueAt(selectedRowIndex, 1).toString());
+				tfdesignation.setText(model.getValueAt(selectedRowIndex, 2).toString());
+				tfunitemesure.setText(model.getValueAt(selectedRowIndex, 3).toString());
+				tffournisseur.setText(model.getValueAt(selectedRowIndex, 4).toString());
+				tffamilleproduit.setText(model.getValueAt(selectedRowIndex, 5).toString());
+				tfstock.setText(model.getValueAt(selectedRowIndex, 6).toString());
+				tfstockmin.setText(model.getValueAt(selectedRowIndex, 7).toString());
+				tfprix.setText(model.getValueAt(selectedRowIndex, 8).toString());
+				tftva.setText(model.getValueAt(selectedRowIndex, 9).toString());
+				
+				
+			}
+		});
+		Table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		Table.setBounds(33, 115, 891, 246);
+		frame.getContentPane().add(Table);
+		String req= "SELECT * FROM `produit` ";
+		ResultSet rs = null;
+		try {
+			rs = DataBaseConnection.executionQuery(req);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			Table.setModel(DbUtils.resultSetToTableModel(rs));
+			while(rs.next())
+			{
+				Table.setModel(DbUtils.resultSetToTableModel(rs));
+			
+			}
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
+		JButton back_bn = new JButton("back");
+		back_bn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		back_bn.setBounds(33, 24, 125, 45);
+		frame.getContentPane().add(back_bn);
+		
+		JButton add_bn = new JButton("ajouter");
+		add_bn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//***********ajout********************
+				
+				
+				String reference = tfreference.getText();
+				String designation = tfdesignation.getText();
+				String uniteMesure = tfunitemesure.getText();
+				
+				
+				
+				String fournisseur = tffournisseur.getText();
+				
+				
+				String familleProduit = tffamilleproduit.getText();
+				int stock = Integer.parseInt(tfstock.getText());
+				int stockMinimale = Integer.parseInt(tfstockmin.getText());
+				int prixUnitaireHTaxe = Integer.parseInt(tfprix.getText());
+				double tva = Double.parseDouble(tftva.getText());
+				
+				Produit newProduit = new Produit(reference, designation, 
+						uniteMesure, fournisseur,familleProduit, stock,stockMinimale,
+						prixUnitaireHTaxe, tva);
+				
+					try {
+						if(newProduit.ajouterProduit())
+							JOptionPane.showMessageDialog(null, "Produit ajouté avec succès.");
+					} catch (HeadlessException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				
+			}
+		});
+		add_bn.setBounds(936, 115, 125, 45);
+		frame.getContentPane().add(add_bn);
+		
+		textFieldID = new JTextField();
+		textFieldID.setBounds(198, 392, 116, 22);
+		frame.getContentPane().add(textFieldID);
+		textFieldID.setColumns(10);
+		
+		JButton update_bn = new JButton("modifier");
+		update_bn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent em1) {
+				
+				//*************** modifier******************
+				int id=Integer.parseInt(textFieldID.getText());
+				String reference = tfreference.getText();
+				String designation = tfdesignation.getText();
+				String uniteMesure = tfunitemesure.getText();
+				
+				
+				
+				String fournisseur = tffournisseur.getText();
+				
+				
+				String familleProduit = tffamilleproduit.getText();
+				int stock = Integer.parseInt(tfstock.getText());
+				int stockMinimale = Integer.parseInt(tfstockmin.getText());
+				int prixUnitaireHTaxe = Integer.parseInt(tfprix.getText());
+				double tva = Double.parseDouble(tftva.getText());
+				
+				Produit newProduit = new Produit(reference, designation, 
+						uniteMesure, fournisseur,familleProduit, stock,stockMinimale,
+						prixUnitaireHTaxe, tva);
+				try {
+					if(newProduit.editeProduit(id))
+						JOptionPane.showMessageDialog(null, "Produit modifier avec succès.");
+				} catch (HeadlessException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+			}
+		});
+		update_bn.setBounds(936, 173, 126, 45);
+		frame.getContentPane().add(update_bn);
+		
+		JButton delete_bn = new JButton("Supprimer");
+		delete_bn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				//*********** supprimer *************
+				int idd= Integer.parseInt(textFieldID.getText());
+				Produit delprod=new Produit();
+				try {
+					if(delprod.deleteProduit(idd))
+						JOptionPane.showMessageDialog(null, "Produit modifier avec succès.");
+				} catch (HeadlessException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		delete_bn.setBounds(936, 231, 125, 45);
+		frame.getContentPane().add(delete_bn);
+		
+		JLabel lblNewLabel_1 = new JLabel("IDProduit");
+		lblNewLabel_1.setForeground(Color.RED);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		lblNewLabel_1.setBounds(56, 392, 80, 22);
+		frame.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Reference");
+		lblNewLabel_2.setBounds(56, 443, 80, 19);
+		frame.getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Designation");
+		lblNewLabel_3.setBounds(56, 499, 80, 19);
+		frame.getContentPane().add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Unite Mesure");
+		lblNewLabel_4.setBounds(56, 541, 80, 19);
+		frame.getContentPane().add(lblNewLabel_4);
+		
+		tfreference = new JTextField();
+		tfreference.setBounds(198, 440, 116, 22);
+		frame.getContentPane().add(tfreference);
+		tfreference.setColumns(10);
+		
+		tfdesignation = new JTextField();
+		tfdesignation.setBounds(198, 496, 116, 22);
+		frame.getContentPane().add(tfdesignation);
+		tfdesignation.setColumns(10);
+		
+		tfunitemesure = new JTextField();
+		tfunitemesure.setBounds(198, 538, 116, 22);
+		frame.getContentPane().add(tfunitemesure);
+		tfunitemesure.setColumns(10);
+		
+		JLabel lblNewLabel_5 = new JLabel("Fournisseur");
+		lblNewLabel_5.setBounds(56, 592, 80, 16);
+		frame.getContentPane().add(lblNewLabel_5);
+		
+		tffournisseur = new JTextField();
+		tffournisseur.setBounds(198, 586, 116, 22);
+		frame.getContentPane().add(tffournisseur);
+		tffournisseur.setColumns(10);
+		
+		JLabel lblNewLabel_6 = new JLabel("Famille Produit");
+		lblNewLabel_6.setBounds(446, 400, 104, 16);
+		frame.getContentPane().add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_7 = new JLabel("Stock");
+		lblNewLabel_7.setBounds(446, 453, 56, 16);
+		frame.getContentPane().add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_8 = new JLabel("Stock min");
+		lblNewLabel_8.setBounds(446, 499, 56, 16);
+		frame.getContentPane().add(lblNewLabel_8);
+		
+		JLabel lblNewLabel_9 = new JLabel("Prix");
+		lblNewLabel_9.setBounds(446, 544, 56, 16);
+		frame.getContentPane().add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_10 = new JLabel("TVA");
+		lblNewLabel_10.setBounds(446, 592, 56, 16);
+		frame.getContentPane().add(lblNewLabel_10);
+		
+		tffamilleproduit = new JTextField();
+		tffamilleproduit.setBounds(562, 397, 116, 22);
+		frame.getContentPane().add(tffamilleproduit);
+		tffamilleproduit.setColumns(10);
+		
+		tfstock = new JTextField();
+		tfstock.setBounds(562, 452, 116, 22);
+		frame.getContentPane().add(tfstock);
+		tfstock.setColumns(10);
+		
+		tfstockmin = new JTextField();
+		tfstockmin.setBounds(562, 496, 116, 22);
+		frame.getContentPane().add(tfstockmin);
+		tfstockmin.setColumns(10);
+		
+		tfprix = new JTextField();
+		tfprix.setBounds(562, 541, 116, 22);
+		frame.getContentPane().add(tfprix);
+		tfprix.setColumns(10);
+		
+		tftva = new JTextField();
+		tftva.setBounds(562, 589, 116, 22);
+		frame.getContentPane().add(tftva);
+		tftva.setColumns(10);
+		
+		
+		
+	}
+}

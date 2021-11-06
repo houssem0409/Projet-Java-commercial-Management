@@ -1,0 +1,279 @@
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.HeadlessException;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import model.CompteBancaire;
+import model.Fournisseur;
+import model.GlobalVariables;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import database.DataBaseConnection;
+import java.awt.Color;
+import java.awt.Font;
+
+public class AddFournisseur extends JFrame {
+	private static AddFournisseur currentAddOrUpdateFournisseurForm = null;
+
+	private JPanel contentPane;
+	private JTextField tfcodefournisseur;
+	private JTextField tfmatriculefiscale;
+	private JTextField tfraisonfiscale;
+	private JTextField tfadresse;
+	private JTextField tftelephonefix;
+	private JTextField tftelephonemobile;
+	private JTextField tffax;
+	private JTextField tfemail;
+	private JTextField tfetatfiscale;
+	private JTextField tfwebsite;
+	private JTextField tfnombanque;
+	private JTextField tfagence;
+	private JTextField tfrip;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AddFournisseur frame = new AddFournisseur(GlobalVariables.ADDVALUE);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public AddFournisseur(String _typeOperation) throws ClassNotFoundException, SQLException {
+		String typeOperation = _typeOperation;
+		 DataBaseConnection.connecter();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 755, 473);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Code Fournisseur");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel.setBounds(12, 67, 116, 16);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Matricule Fiscale");
+		lblNewLabel_1.setBounds(12, 99, 97, 16);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Adresse");
+		lblNewLabel_2.setBounds(12, 157, 97, 16);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Telephone Fixe");
+		lblNewLabel_3.setBounds(12, 186, 97, 16);
+		contentPane.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Telephone Mobile");
+		lblNewLabel_4.setBounds(12, 215, 109, 16);
+		contentPane.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_5 = new JLabel("Fax");
+		lblNewLabel_5.setBounds(12, 244, 56, 16);
+		contentPane.add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_6 = new JLabel("Email");
+		lblNewLabel_6.setBounds(12, 273, 56, 16);
+		contentPane.add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_7 = new JLabel("Etat Fiscale");
+		lblNewLabel_7.setBounds(12, 302, 97, 16);
+		contentPane.add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_8 = new JLabel("Raison Sociale");
+		lblNewLabel_8.setBounds(12, 128, 97, 16);
+		contentPane.add(lblNewLabel_8);
+		
+		JLabel lblNewLabel_9 = new JLabel("Web Site");
+		lblNewLabel_9.setBounds(12, 337, 56, 16);
+		contentPane.add(lblNewLabel_9);
+		
+		tfcodefournisseur = new JTextField();
+		tfcodefournisseur.setBounds(133, 64, 116, 22);
+		contentPane.add(tfcodefournisseur);
+		tfcodefournisseur.setColumns(10);
+		
+		tfmatriculefiscale = new JTextField();
+		tfmatriculefiscale.setBounds(133, 96, 116, 22);
+		contentPane.add(tfmatriculefiscale);
+		tfmatriculefiscale.setColumns(10);
+		
+		tfraisonfiscale = new JTextField();
+		tfraisonfiscale.setBounds(133, 125, 116, 22);
+		contentPane.add(tfraisonfiscale);
+		tfraisonfiscale.setColumns(10);
+		
+		tfadresse = new JTextField();
+		tfadresse.setBounds(133, 154, 116, 22);
+		contentPane.add(tfadresse);
+		tfadresse.setColumns(10);
+		
+		tftelephonefix = new JTextField();
+		tftelephonefix.setBounds(133, 183, 116, 22);
+		contentPane.add(tftelephonefix);
+		tftelephonefix.setColumns(10);
+		
+		tftelephonemobile = new JTextField();
+		tftelephonemobile.setBounds(133, 212, 116, 22);
+		contentPane.add(tftelephonemobile);
+		tftelephonemobile.setColumns(10);
+		
+		tffax = new JTextField();
+		tffax.setBounds(133, 241, 116, 22);
+		contentPane.add(tffax);
+		tffax.setColumns(10);
+		
+		tfemail = new JTextField();
+		tfemail.setBounds(133, 270, 116, 22);
+		contentPane.add(tfemail);
+		tfemail.setColumns(10);
+		
+		tfetatfiscale = new JTextField();
+		tfetatfiscale.setBounds(133, 299, 116, 22);
+		contentPane.add(tfetatfiscale);
+		tfetatfiscale.setColumns(10);
+		
+		tfwebsite = new JTextField();
+		tfwebsite.setBounds(133, 335, 116, 19);
+		contentPane.add(tfwebsite);
+		tfwebsite.setColumns(10);
+		
+		JButton bn_add = new JButton("Ajouter");
+		bn_add.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String codeFournisseur = tfcodefournisseur.getText();
+				String matriculeFiscale = tfmatriculefiscale.getText();
+				String  raisonSociale = tfraisonfiscale.getText();
+				String adresse= tfadresse.getText();
+				int telephoneFixe= Integer.parseInt(tftelephonefix.getText());
+				int telephoneMobile= Integer.parseInt(tftelephonemobile.getText());
+				int fax= Integer.parseInt(tffax.getText());
+				String email = tfemail.getText();
+				String website = tfwebsite.getText();
+				int etatFiscale= Integer.parseInt(tfetatfiscale.getText());
+			
+				String nomBanque= tfnombanque.getText();
+				String agence= tfagence.getText();
+				double rip= Double.parseDouble(tfrip.getText());
+				CompteBancaire comptebancaire= new CompteBancaire(nomBanque,agence,rip);
+				try {
+					comptebancaire.ajouterCompteBancaire();
+						
+					}
+				} catch (HeadlessException | SQLException ee) {
+					// TODO Auto-generated catch block
+					ee.printStackTrace();
+				}
+			
+				
+				 String req= "SELECT MAX(id_comptebancaire) FROM `comptebancaire`";
+				
+				try {
+					 ResultSet rs = DataBaseConnection.executionQuery(req);
+					if(rs.next()) {
+						int idComptebnq=rs.getInt(1);
+						System.out.println(idComptebnq);
+						Fournisseur fournisseur = new Fournisseur(codeFournisseur,matriculeFiscale,raisonSociale,adresse,telephoneFixe,
+								telephoneMobile,fax,email,website,etatFiscale,idComptebnq);
+						
+						try {
+							if(typeOperation == GlobalVariables.ADDVALUE && fournisseur.ajouterFournisseur())
+								JOptionPane.showMessageDialog(null, "Fournisseur ajouté avec succès."+idComptebnq);
+						} catch (HeadlessException | SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
+				
+				
+				
+			}
+			
+		});
+		bn_add.setBounds(555, 369, 133, 44);
+		contentPane.add(bn_add);
+		
+		JLabel lblAjoutFournisseur = new JLabel("Ajout Fournisseur");
+		lblAjoutFournisseur.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblAjoutFournisseur.setForeground(Color.BLUE);
+		lblAjoutFournisseur.setBounds(260, 10, 148, 44);
+		contentPane.add(lblAjoutFournisseur);
+		
+		JButton btnNewButton = new JButton("Back");
+		btnNewButton.setBounds(12, 3, 80, 16);
+		contentPane.add(btnNewButton);
+		
+		JLabel lblNewLabel_10 = new JLabel("Nom de la Banque");
+		lblNewLabel_10.setBounds(386, 67, 116, 16);
+		contentPane.add(lblNewLabel_10);
+		
+		JLabel lblNewLabel_11 = new JLabel("Agence");
+		lblNewLabel_11.setBounds(386, 99, 91, 16);
+		contentPane.add(lblNewLabel_11);
+		
+		JLabel lblNewLabel_12 = new JLabel("Rip");
+		lblNewLabel_12.setBounds(386, 128, 91, 16);
+		contentPane.add(lblNewLabel_12);
+		
+		tfnombanque = new JTextField();
+		tfnombanque.setBounds(510, 64, 158, 22);
+		contentPane.add(tfnombanque);
+		tfnombanque.setColumns(10);
+		
+		tfagence = new JTextField();
+		tfagence.setBounds(510, 96, 158, 22);
+		contentPane.add(tfagence);
+		tfagence.setColumns(10);
+		
+		tfrip = new JTextField();
+		tfrip.setBounds(510, 131, 158, 22);
+		contentPane.add(tfrip);
+		tfrip.setColumns(10);
+		
+		JButton creercompte_bn = new JButton("Creer un compte");
+		creercompte_bn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+			}
+		});
+		creercompte_bn.setBounds(539, 182, 133, 25);
+		contentPane.add(creercompte_bn);
+	}
+	public static AddFournisseur getCurrentAddOrUpdateProduitForm(String _typeOperation) throws ClassNotFoundException, SQLException
+	{
+		if(currentAddOrUpdateFournisseurForm == null)
+			currentAddOrUpdateFournisseurForm = new AddFournisseur(_typeOperation);
+		return currentAddOrUpdateFournisseurForm;
+	}
+}

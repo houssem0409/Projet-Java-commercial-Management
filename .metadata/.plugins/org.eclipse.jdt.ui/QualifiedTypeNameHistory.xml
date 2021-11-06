@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="javax.swing.JTable"/>
+<fullyQualifiedTypeName name="java.sql.Date"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+<fullyQualifiedTypeName name="java.sql.DriverManager"/>
+<fullyQualifiedTypeName name="controller.Connection"/>
+<fullyQualifiedTypeName name="database.DataBaseTableNames"/>
+<fullyQualifiedTypeName name="model.Fournisseur"/>
+<fullyQualifiedTypeName name="model.FamilleProduit"/>
+<fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="model.Produit"/>
+<fullyQualifiedTypeName name="model.GlobalVariables"/>
+<fullyQualifiedTypeName name="java.awt.HeadlessException"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="com.mysql.jdbc.Statement"/>
+<fullyQualifiedTypeName name="model.LigneBonReception"/>
+<fullyQualifiedTypeName name="view.LigneBonReceptions"/>
+<fullyQualifiedTypeName name="model.FactureFournisseur"/>
+<fullyQualifiedTypeName name="model.BonReception"/>
+<fullyQualifiedTypeName name="database.DataBaseConnection"/>
+<fullyQualifiedTypeName name="view.DetailsBon"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="model.FactureClient"/>
+<fullyQualifiedTypeName name="model.BonLivraison"/>
+</qualifiedTypeNameHistroy>

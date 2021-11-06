@@ -1,0 +1,308 @@
+package view;
+
+import java.awt.EventQueue;
+import java.awt.HeadlessException;
+
+import javax.swing.JFrame;
+
+import model.Fournisseur;
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.jdbc.Statement;
+
+import database.DataBaseConnection;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class AfficheFournisseur extends javax.swing.JInternalFrame {
+
+	JFrame frame;
+	public JTable Table;
+	private JTable table;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
+	private JTextField textField_7;
+	private JTextField textField_8;
+	private JTextField textField_9;
+	private JTextField textField_10;
+	private JTextField textField_11;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+				
+					AfficheFournisseur window = new AfficheFournisseur();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 * @throws SQLException 
+	 * @throws HeadlessException 
+	 * @throws ClassNotFoundException 
+	 */
+	public AfficheFournisseur() throws HeadlessException, SQLException, ClassNotFoundException {
+		DataBaseConnection.connecter();
+		initialize();
+		 
+		
+		
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 1013, 682);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JButton add_bn = new JButton("Ajouter");
+		add_bn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String req= "SELECT * FROM `fournisseur` ";
+				ResultSet rs = null;
+				try {
+					rs = DataBaseConnection.executionQuery(req);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					while(rs.next())
+					{
+						Table.setModel(DbUtils.resultSetToTableModel(rs));
+					
+					}
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				
+				
+				
+				
+			}
+		});
+		
+		add_bn.setBounds(868, 89, 97, 38);
+		frame.getContentPane().add(add_bn);
+		
+		Table = new JTable();
+		Table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				
+				DefaultTableModel model= (DefaultTableModel)Table.getModel();
+				int selectedRowIndex = Table.getSelectedRow();
+				
+			/*	textFieldID.setText(model.getValueAt(selectedRowIndex, 0).toString());
+				tfreference.setText(model.getValueAt(selectedRowIndex, 1).toString());
+				tfdesignation.setText(model.getValueAt(selectedRowIndex, 2).toString());
+				tfunitemesure.setText(model.getValueAt(selectedRowIndex, 3).toString());
+				tffournisseur.setText(model.getValueAt(selectedRowIndex, 4).toString());
+				tffamilleproduit.setText(model.getValueAt(selectedRowIndex, 5).toString());
+				tfstock.setText(model.getValueAt(selectedRowIndex, 6).toString());
+				tfstockmin.setText(model.getValueAt(selectedRowIndex, 7).toString());
+				tfprix.setText(model.getValueAt(selectedRowIndex, 8).toString());
+				tftva.setText(model.getValueAt(selectedRowIndex, 9).toString());*/
+			}
+		});
+		Table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10", "Title 11", "New column"
+			}
+		));
+		Table.setBounds(12, 101, 836, 274);
+		frame.getContentPane().add(Table);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"IdFournisseur", "code", "matriculefiscale", "raison sociale", "adresse", "tel fix", "tel mobil", "fax", "email", "website", "etat fiscale", "idComptebnq"},
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
+		table.setBounds(12, 83, 836, 16);
+		frame.getContentPane().add(table);
+		
+		JButton edite_bn = new JButton("Modifier");
+		edite_bn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//******* modifier***************
+			}
+		});
+		edite_bn.setBounds(868, 145, 97, 38);
+		frame.getContentPane().add(edite_bn);
+		
+		JButton delete_bn = new JButton("Supprimer");
+		delete_bn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//*********** supprimer ****************
+				
+			}
+		});
+		delete_bn.setBounds(868, 202, 97, 38);
+		frame.getContentPane().add(delete_bn);
+		
+		JLabel lblNewLabel = new JLabel("IdFournisseur");
+		lblNewLabel.setForeground(Color.RED);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		lblNewLabel.setBounds(22, 391, 102, 22);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("code");
+		lblNewLabel_1.setBounds(22, 430, 56, 16);
+		frame.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("matricule Fiscale");
+		lblNewLabel_2.setBounds(22, 472, 102, 16);
+		frame.getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Raison Sociale");
+		lblNewLabel_3.setBounds(22, 512, 90, 16);
+		frame.getContentPane().add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Adresse");
+		lblNewLabel_4.setBounds(22, 549, 56, 16);
+		frame.getContentPane().add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_5 = new JLabel("Telephone Mobile");
+		lblNewLabel_5.setBounds(368, 391, 108, 16);
+		frame.getContentPane().add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_6 = new JLabel("telephone Fix");
+		lblNewLabel_6.setBounds(22, 584, 102, 16);
+		frame.getContentPane().add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_7 = new JLabel("Fax");
+		lblNewLabel_7.setBounds(368, 430, 56, 16);
+		frame.getContentPane().add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_8 = new JLabel("Email");
+		lblNewLabel_8.setBounds(368, 472, 56, 16);
+		frame.getContentPane().add(lblNewLabel_8);
+		
+		JLabel lblNewLabel_9 = new JLabel("WebSite");
+		lblNewLabel_9.setBounds(368, 512, 97, 16);
+		frame.getContentPane().add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_10 = new JLabel("Etat Fiscale");
+		lblNewLabel_10.setBounds(368, 549, 97, 16);
+		frame.getContentPane().add(lblNewLabel_10);
+		
+		JLabel lblNewLabel_11 = new JLabel("idCompteBancaire");
+		lblNewLabel_11.setBounds(368, 584, 121, 16);
+		frame.getContentPane().add(lblNewLabel_11);
+		
+		textField = new JTextField();
+		textField.setBounds(166, 388, 116, 22);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(166, 427, 116, 22);
+		frame.getContentPane().add(textField_1);
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(166, 469, 116, 22);
+		frame.getContentPane().add(textField_2);
+		textField_2.setColumns(10);
+		
+		textField_3 = new JTextField();
+		textField_3.setBounds(166, 509, 116, 22);
+		frame.getContentPane().add(textField_3);
+		textField_3.setColumns(10);
+		
+		textField_4 = new JTextField();
+		textField_4.setBounds(166, 546, 116, 22);
+		frame.getContentPane().add(textField_4);
+		textField_4.setColumns(10);
+		
+		textField_5 = new JTextField();
+		textField_5.setBounds(166, 581, 116, 22);
+		frame.getContentPane().add(textField_5);
+		textField_5.setColumns(10);
+		
+		textField_6 = new JTextField();
+		textField_6.setBounds(501, 388, 116, 22);
+		frame.getContentPane().add(textField_6);
+		textField_6.setColumns(10);
+		
+		textField_7 = new JTextField();
+		textField_7.setBounds(501, 427, 116, 22);
+		frame.getContentPane().add(textField_7);
+		textField_7.setColumns(10);
+		
+		textField_8 = new JTextField();
+		textField_8.setBounds(501, 469, 116, 22);
+		frame.getContentPane().add(textField_8);
+		textField_8.setColumns(10);
+		
+		textField_9 = new JTextField();
+		textField_9.setBounds(501, 509, 116, 22);
+		frame.getContentPane().add(textField_9);
+		textField_9.setColumns(10);
+		
+		textField_10 = new JTextField();
+		textField_10.setBounds(501, 549, 116, 22);
+		frame.getContentPane().add(textField_10);
+		textField_10.setColumns(10);
+		
+		textField_11 = new JTextField();
+		textField_11.setBounds(501, 584, 116, 22);
+		frame.getContentPane().add(textField_11);
+		textField_11.setColumns(10);
+		
+	}
+}

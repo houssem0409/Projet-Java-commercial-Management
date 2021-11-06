@@ -1,0 +1,217 @@
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import model.FamilleProduit;
+import model.Fournisseur;
+import model.GlobalVariables;
+import model.Produit;
+
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import java.awt.FlowLayout;
+import java.awt.HeadlessException;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import database.DataBaseConnection;
+public class AddProduit extends JFrame {
+
+	private JPanel contentPane;
+	private static AddProduit currentAddOrUpdateProduitForm = null;
+	
+	private JTextField tfreference;
+	private JTextField tfdesignation;
+	private JTextField tfuniteMesure;
+	private JTextField tffournisseur;
+	private JTextField tffamilleproduit;
+	private JTextField tfstock;
+	private JTextField tfprix;
+	private JTextField tftva;
+	private JTextField tfunitemesure;
+	private JTextField hhh;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AddProduit frame = new AddProduit(GlobalVariables.ADDVALUE);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public AddProduit(String _typeOperation) throws ClassNotFoundException, SQLException {
+		String typeOperation = _typeOperation;
+		 DataBaseConnection.connecter();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton ajout_bn = new JButton("Ajouter");
+		ajout_bn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					
+					String reference = hhh.getText();
+					String designation = tfdesignation.getText();
+					String uniteMesure = tfunitemesure.getText();
+					
+					
+					
+					String fournisseur = tffournisseur.getText();
+					
+					
+					String familleProduit = tffamilleproduit.getText();
+					int stock = Integer.parseInt(tfstock.getText());
+					int prixUnitaireHTaxe = Integer.parseInt(tfprix.getText());
+					double tva = Integer.parseInt(tftva.getText());
+					//verifier la validité des informations :
+					String msg = "";
+					boolean verif = true;
+					if(reference.isEmpty())
+					{
+						tfreference.setForeground(Color.RED);
+						verif = false;
+					}
+					// à completer..
+					
+					if(!verif)
+					{
+						JOptionPane.showMessageDialog(null, "Vérifier les valeurs saisies!");
+						return;
+					}
+									
+					Produit newProduit = new Produit(reference, designation, 
+							uniteMesure, fournisseur,familleProduit, stock,
+							prixUnitaireHTaxe, tva);
+					
+						if(typeOperation == GlobalVariables.ADDVALUE && newProduit.ajouterProduit())
+							JOptionPane.showMessageDialog(null, "Produit ajouté avec succès.");
+						
+						
+					} catch (HeadlessException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage());
+					} catch (SQLException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage());
+					}
+				 catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(null, "Valeur saisie non numérique !");
+				}
+				}
+				
+				
+			
+		});
+		ajout_bn.setBounds(270, 215, 97, 25);
+		contentPane.add(ajout_bn);
+		
+		JLabel referencelab = new JLabel("reference");
+		referencelab.setBounds(12, 30, 56, 16);
+		contentPane.add(referencelab);
+		
+		JLabel designationlab = new JLabel("designation");
+		designationlab.setBounds(12, 59, 79, 16);
+		contentPane.add(designationlab);
+		
+		JLabel fournisseurlab = new JLabel("fournisseur");
+		fournisseurlab.setBounds(12, 112, 64, 16);
+		contentPane.add(fournisseurlab);
+		
+		JLabel familleproduitlab = new JLabel("Famille Produit");
+		familleproduitlab.setBounds(12, 132, 91, 16);
+		contentPane.add(familleproduitlab);
+		
+		JLabel stocklab = new JLabel("Stock");
+		stocklab.setBounds(12, 161, 56, 16);
+		contentPane.add(stocklab);
+		
+		JLabel prixlab = new JLabel("Prix");
+		prixlab.setBounds(12, 190, 56, 16);
+		contentPane.add(prixlab);
+		
+		JLabel tvalab = new JLabel("TVA");
+		tvalab.setBounds(12, 219, 56, 16);
+		contentPane.add(tvalab);
+		
+		JLabel idproduitlabel = new JLabel("id produit");
+		idproduitlabel.setBounds(12, 1, 56, 16);
+		contentPane.add(idproduitlabel);
+		
+
+
+	
+		tfdesignation = new JTextField();
+		tfdesignation.setBounds(103, 56, 116, 22);
+		contentPane.add(tfdesignation);
+		tfdesignation.setColumns(10);
+		
+		tffournisseur = new JTextField();
+		tffournisseur.setBounds(103, 109, 116, 22);
+		contentPane.add(tffournisseur);
+		tffournisseur.setColumns(10);
+		
+		tffamilleproduit = new JTextField();
+		tffamilleproduit.setBounds(103, 135, 116, 16);
+		contentPane.add(tffamilleproduit);
+		tffamilleproduit.setColumns(10);
+		
+		tfstock = new JTextField();
+		tfstock.setBounds(103, 158, 116, 22);
+		contentPane.add(tfstock);
+		tfstock.setColumns(10);
+		
+		tfprix = new JTextField();
+		tfprix.setBounds(103, 187, 116, 22);
+		contentPane.add(tfprix);
+		tfprix.setColumns(10);
+		
+		tftva = new JTextField();
+		tftva.setBounds(103, 216, 116, 22);
+		contentPane.add(tftva);
+		tftva.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Unite Mesure");
+		lblNewLabel.setBounds(12, 88, 79, 16);
+		contentPane.add(lblNewLabel);
+		
+		tfunitemesure = new JTextField();
+		tfunitemesure.setBounds(103, 85, 116, 22);
+		contentPane.add(tfunitemesure);
+		tfunitemesure.setColumns(10);
+		
+		hhh = new JTextField();
+		hhh.setBounds(103, 27, 116, 22);
+		contentPane.add(hhh);
+		hhh.setColumns(10);
+	}
+	public static AddProduit getCurrentAddOrUpdateProduitForm(String _typeOperation) throws ClassNotFoundException, SQLException
+	{
+		if(currentAddOrUpdateProduitForm == null)
+			currentAddOrUpdateProduitForm = new AddProduit(_typeOperation);
+		return currentAddOrUpdateProduitForm;
+	}
+}
